@@ -1,0 +1,98 @@
+\section{Overview}
+\label{pb_overview}
+\ac{protobuf} are used to serialize structured data in order to develop a communication between programs or even to store data. Protobuf is available in multiple languages, for example C++, Java and Python. It was developed internally at Google, but by now it is an open-source project and the current version is protobuf 3.3. The goal of protobuf is to be smaller and faster than XML, but be easy to use at the same time\cite{pb_overview}.\\
+The basis for each protobuf application is the .proto file which contains information how the data is structured. After the serialization the data can be outputted as a file or even as a stream and sent to the receiver. 
+\subsection{.proto files}
+\label{pb_proto}
+As mentioned in section \ref{pb_overview}, the basis for each protobuf application is the .proto file. This file defines the structure of the data, which should be serialized or deserialized. An example for a .proto file is given below:
+\begin{lstlisting}[backgroundcolor=\color{lightlightgray}, title={Example protobuf definiton}, label=pb:vector3D]
+message Vector3D {
+    required double longitudinalValue = 1;
+    required double lateralValue = 2;
+    required double verticalValue = 3;
+    optional double longitudinalAccuracy = 4;
+    optional double lateralAccuary = 5;
+    optional double verticalAccuracy = 6;
+}
+\end{lstlisting}
+This is a very basic example with only primitive value types, here \verb|double|.\\
+The .proto file defines one or more \emph{messages}. Each message has one or more uniquely numbered fields. Each field has a name and a value type and is specified as \emph{optional}, \emph{required} or \emph{repeated}.
+\subsection{Field types, tags and rules}
+\label{pb_fields}
+Besides scalar types, protobuf allows to also use \verb|enums| and even other message types as field types. Protobuf uses its own type names for the scalar types which are mapped to the corresponding scalar types of the used programming language. 
+\begin{figure}[!hbt]
+\includegraphics[scale=0.54, center]{typeMapping.png}
+\caption{Type mapping of protobuf types to selected languages\cite{languageGuide}}
+\label{pb_types}
+\end{figure}
+Figure \ref{pb_types} shows this listing of protobuf scalar types and the mapped types of programming languages like C++ and Java. The different versions of \verb|int| provide the possibility to fit the individual needs of each application and to be efficient at the same time in terms of memory consumption. These optimizations are applied when the data is serialized by protobuf.\par
+The number behind each field is called \emph{tag}. These tags are unique for each message and are used to identify each field in the binary message structure(see capter \ref{pb_encoding}). Google itself advises to not change these tags once the .proto file is in use. However, this applies only, if there is a chance that another party which relies on the data is still using another version of the .proto file with different tags. In this case the decoded data may be invalid, because the tags do not match anymore.\par
+Each field in the example message has a prefixed \emph{rule}. These rules are used to give each field a priority. There are three rules that can be applied:
+\begin{itemize}
+\item \textbf{required}: Each message has to provide all required fields, if one or more required fields are missing, the message can not be decoded.
+\item \textbf{optional}: Optional fields can be filled, but there is no need to. If an optional field is not provided by the message the decoding still works without problems.
+\item \textbf{repeated}: This rule makes it possible to store multiple values in a single field. Like the optional rule, there is no need to store any value in there, the decoding will still work.
+\end{itemize}
+The use of required fields is controversial these days.\cite{requiredRemoval} Google decided to remove the required and optional rules in protobuf 3 in order to make it more flexible. The advantage of required fields is the possibility to let everybody know that without these fields the message is not useful. This makes sense in reflection of the example of the 3D Vector(\ref{pb:vector3D}). The longitudinal, lateral and vertical value is necessary in order to have a three-dimensional vector. However, the accuracy is nice to have to evaluate how useful the information is, but this is not necessary though. The downside of the required rule is the harm in flexibility. If the .proto file is used widely across multiple components of a system an added or removed required can cause errors, if the new .proto file is not shared and used by every component immediately. The decoding will not work anymore for the component with the newer .proto file, if a component with the old .proto file sends data without the newly required field. The same applies, if a required field was removed and the component with the old .proto file receives a message by the component with the new .proto file without this field. Especially in a research environment where protobuf is used it makes sense to make use of the new flexibility of protobuf 3 in order to be able to change the .proto file whenever needed without worrying about incompatibilities.
+\subsection{Multiple Messages}
+\label{pb_multMess}
+It is possible to define more than one message per .proto file. This makes it easier to build complex structures and nested types. The following message uses the Vector3D message as type in its definition to represent a complex data structure.
+\begin{lstlisting}[backgroundcolor=\color{lightlightgray}, title={Using a message as type}]
+message ElectronicStabilityControlEvent {
+    optional bool antiSlipActionEvent = 1;
+    optional bool antiLockActionEvent = 2;
+    optional bool electronicStabilityControlEvent = 3;
+    optional Vector3D requestedAccelerationVector_mps2 = 4;
+    optional Vector3D requestedRotationRateVector_omega = 5;
+}
+\end{lstlisting}
+But even if the \emph{ElectronicStabilityControlEvent} has the Vector3D assigned as \emph{optional}, the required fields in the Vector3D message still have to be populated. This only applies though, if the Vector3D field is touched, for example if any value like \emph{longitudinalValue} is filled. If the \emph{requestedAccelerationVector\_mps2} for example does not contain any value, the required fields can be left empty without an error, because protobuf ignores this field.\par
+It is also possible to declare nested types. An example is shown below. 
+\begin{lstlisting}[backgroundcolor=\color{lightlightgray}, title={Nested types}]
+message LocalizationInformation {
+    message PositioningSystem {
+        enum PositioningSystemTypeEnum {
+            POSITIONING_SYSTEM_TYPE_UNDEFINED = 0;
+            POSITIONING_SYSTEM_TYPE_OTHER = 1;
+            POSITIONING_SYSTEM_TYPE_GPS = 2;
+            POSITIONING_SYSTEM_TYPE_GLONASS = 3;
+            POSITIONING_SYSTEM_TYPE_GALLILEO = 4;
+            POSITIONING_SYSTEM_TYPE_IRNSS = 5;
+            POSITIONING_SYSTEM_TYPE_BeiDou = 6;
+        }
+        enum GNSSFixEnum {
+            GNSS_FIX_UNDEFINED = 0;
+            GNSS_FIX_NO = 1;
+            GNSS_FIX_2D = 2;
+            GNSS_FIX_3D = 3;
+        }
+        optional PositioningSystemTypeEnum positioningSystem = 1;
+        optional GNSSFixEnum gnssFix = 2;
+        optional int32 numberOfSatellites = 3;
+        optional bool enhancedByCellOrWifi = 4;
+        optional bool enhancedByDifferentialSignal = 5;
+    }
+    required int64 timestampUTC_ms = 1;
+    repeated PositioningSystem usedLocalizationSystems = 2;
+    optional bool enhancedByDeadReconning = 3;
+    optional bool enhancedByMapLocalization = 4;
+	optional double HDOP = 5;
+	optional double VDOP = 6;
+}
+\end{lstlisting}
+The message \emph{PositioningSystem} is declared inside of the \emph{LocalizationInformation} message. The nested message can again contain all scalar types and enums, as well as other nested messages. Inside of \emph{LocalizationInformation} the type \emph{PositioningSystem} can be used like a normal scalar type or enum. If this type should be referred to outside of \emph{LocalizationInformation}, the following syntax has to be applied: \verb|Parent.Type|.
+\subsection{Encoding}
+\label{pb_encoding}
+In order to exchange data with protobuf, the data is serialized to a binary wire format. The following figure \ref{encoding_table} shows how different types are encoding in protobuf.
+\begin{figure}[!hbt]
+\includegraphics[scale=0.54, center]{encoding.png}
+\caption{Wire types in protobuf\cite{encoding}}
+\label{encoding_table}
+\end{figure}
+Protobuf uses key-value pairs to represent messages. In the binary version of a message protobuf uses the tag as key, the assigned value of a field represents the value for the key. The corresponding type and name of the field can be determined by the decoding side, because it has access to the .proto file. \\
+The encoded message consists of concatenated key-value pairs, representing the data stored in the messages. Each key does not only represent the tag of the field, but also the wire type which indicates how to encode the following data. In order to do so, the last three bit of the key represent the wire type while the rest is used for the tag. The key is always encoded as a varint. Varints are a method to serialize integers into bytes. The most significant bit is set in every byte, except the last one. If the most significant bit is set, the following byte still belongs to the current integer. The lower 7 bit are used to store the two's complement representation of the number in groups of 7 bits, least significant group first.
+\subsection{Compatibility}
+\label{pb_comp}
+In order to update a .proto file the new field can just be added or an existing field can be removed without breaking the compatibility to existing code. To achieve this \textbf{tags} must not be changed and the changed fields should only be \textbf{optional or repeated}(see \ref{pb_fields}).\\
+The compatibility between different protobuf versions is not always given. Protobuf 2 and protobuf 3 are mostly compatible, but some conversion can not be made. Features like \emph{oneof} require a specific protobuf version to work. If the protobuf version is not compatible with the used .proto file, protobuf will throw an error and tell the user which change has to be made in order to achieve compatibility.\par
+\emph{Protoc} is a compiler provided by Google to compile the .proto file to a .pb.h and pb.cc file (for C++). These files are needed to use protobuf in custom code and access the fields declared in the .proto file. In order to use protobuf in custom code, the used protoc and the installed protobuf version have to be compatible. If the .proto file is compiled with a newer version of protoc than the installed version of protobuf, some features are not available and protobuf throws an error.

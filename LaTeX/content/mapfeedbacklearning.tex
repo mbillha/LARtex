@@ -1,0 +1,173 @@
+Map Feedback is the process of delivering feedback data to the high definition map supplier in order to perform the Map Learning. It describes the modules in the vehicle involved in the Map Learning and how they work together to derive an updated map. HERE provides an interface through which rich sensor data can be submitted to HERE and the Map Learning can be performed in the backend. Figure \ref{here_data_flow} shows the data flow from the vehicle to the HERE servers.
+\begin{figure}[!hbt]
+\includegraphics[scale=0.3, center]{here_data_flow.png}
+\caption{Data flow from vehicle to HERE servers\cite{here_sdii}}
+\label{here_data_flow}
+\end{figure}
+The vehicle collects data from its on-board sensors, like LIDAR, Stereo-Camera, etc., and if needed fuses them to meaningful data. This process can run in the \ac{OEM} cloud or in the vehicle or can even be split up. The vehicle collects data about its surroundings and the current situation to give as much information to the supplier as possible. An important part is the anonymization of the data, because the customer should keep his privacy untouched and the drive data can include private information. Therefore the drive can be cut into separate slices and the vehicle gets a unique identification number for every drive, which makes it impossible to track the behavior of a certain vehicle and thus the driver as well. After the data is normalized it is transferred to the HERE servers via the \ac{SDII}(marked red).\\
+The collected sensor data contains all kinds of information, this report goes into more detail about the submitted information in chapter \ref{mfl_sdii_content}. The submitted information can roughly be distinguished into two groups:
+\begin{itemize}
+\item time critical messages
+\item delayed messages
+\end{itemize}
+Time critical messages have to be submitted near real time to make the best use of them. For example if the vehicle has to support the driver unexpected with the \ac{ESP}, this can be a hint on a dangerous situation at a certain location and has to be submitted immediately to the map provider to help other connected vehicles to be aware of the situation in advance. Even a traffic jam can be easily spotted by a connected vehicle and help other users to avoid this part of their route.\\
+Delayed messages do not contain critical information and can be submitted with a delay from minutes to weeks, depending on the content. This data is generally used to update static information. An example could be a repainting on a highway. This information about the lane marking can be collected over a longer drive and then submitted. This saves time and data volume by committing one instead of multiple messages.\\
+The Sensor Data Ingestion Interface messages are serialized via Google Protocol Buffers (see chapter \ref{pb}). Following the serialized bytes are sent via the \ac{SDIP} to HERE. This will be done in future over-the-air from the vehicle for time critical messages while driving, delayed messages could also be submitted while possibly having a WiFi connection in the garage.
+\section{Sensor Data Ingestion Interface}
+\label{mfl_sdii_overview}
+\subsection{Data Elements}
+\label{mfl_sdii_content}
+The Sensor Data Ingestion Interface is based on Google Protocol Buffers (see chapter \ref{pb}). Thus the SDII definitions are written in a .proto file and formed as protobuf messages. This chapter introduces some of the base elements and the data elements already submitted. In future the number of provided information will constantly increase until everything defined by HERE is provided. The Map Feedback loop is in research at the moment which means the SDII definition is likely to change constantly until all parties agree on a solution.
+\subsection{Base Messages}
+\label{mfl_base_messages}
+Some messages are often used as type in another message (see \ref{pb_multMess}) because they represent commonly needed information. Such messages will be referred to in this report as \emph{base messages}.\\
+The position of an object or the vehicle is one of the most important information besides the timestamp to make use of the submitted data. The information about a pole like object does only make sense in the context of a position. Therefore the \textbf{Position Offset} is used. An extract of the corresponding protobuf message is shown below. The Position Offset roughly consists of a lateral, a longitudinal and a vertical component. Each component is split in a value measured in meters, an \verb|enum| defining the rough orientation and an accuracy to describe the confidence of each offset component. The offset is always relative to the vehicle reference point.
+\begin{lstlisting}[backgroundcolor=\color{lightlightgray}, title={Position Offset protobuf definition}]
+message PositionOffset {
+    optional double lateralOffset_m = 1;
+    optional LateralOffsetSimpleEnum lateralOffsetSimple = 2;
+    optional double longitudinalOffset_m = 3;
+    optional LongitudinalOffsetSimpleEnum longitudinalOffsetSimple = 4;
+    optional double verticalOffset_m = 5;
+    optional VerticalOffsetSimpleEnum verticalOffsetSimple = 6;
+    optional double lateralOffsetAccuracy_m = 7;
+    optional double longitudinalOffsetAccuracy_m = 8;
+    optional double verticalOffsetAccuracy_m = 9;
+}
+\end{lstlisting}
+Another often used base message is the \textbf{Vector3D} message. This message was introduced in \ref{pb:vector3D} and contains longitudinal, transversal and vertical values and accuracy to describe the movement of something.\\
+Another often implemented message is the \textbf{Extension Container} message. This message only consists of a data key as string, a data specification as key and a data value of type \verb|Bytes|. The \emph{Extension Container} contains a to \verb|Bytes| compressed protobuf message which contains additional information regarding the message it belongs to. More on the Extension Container is included in chapter \ref{mfl_sdii_messages}. Each programming language supported by protobuf defines the Bytes type different which means the type mapping discussed in chapter \ref{pb_fields} has to be considered.
+\subsection{Sensor Data Ingestion Interface Messages}
+\label{mfl_sdii_messages}
+The SDII is roughly structured in three parts:
+\begin{itemize}
+\item \textbf{Envelope} The \emph{envelope} is used to provide general information about the vehicle and the drive. There is only one \emph{envelope} per \emph{Message} message
+\item \textbf{Path} The \emph{Path} contains \emph{PositionEstimate} messages and therefore represents the driven path by the vehicle.
+\item \textbf{Additional Information} \emph{PathEvents} and \emph{PathMedia} provide additional information about events or observations on the driven path
+\end{itemize}
+Figure \ref{mfl_sdii_over} shows this general structure of the SDII format(\emph{PathMedia is not in the figure}).
+\begin{figure}[!hbt]
+\includegraphics[scale=0.25, center]{mfl_over.png}
+\caption{General strucuture of the SDII format\cite{here_sdii}}
+\label{mfl_sdii_over}
+\end{figure}
+\\Over the whole drive the vehicle keeps track of its position and submits the drive to HERE as in section \ref{mfl_sdii_overview} mentioned. In order to do so, the SDII message \textbf{Position Estimate} is used which is a repeated field in the \emph{Path} message (see \ref{pb_fields}). The following is an extract of the \emph{PositionEstimate} and the \emph{AdditionalPositionEstimateObservations} SDII message. The Position Estimate contains information about the absolute position of the vehicle, as well as traveling information like speed and heading. The last field is the in section \ref{mfl_base_messages} mentioned \emph{Extension Container}. The \emph{AdditionalPositionEstimateObservations} message is an addition to the pure \emph{PositionEstimate} message, every information regarding the Position Estimate which can not be fitted into the SDII \emph{PositionEstimate} message is mapped to the \emph{ExtensionContainer} message. The \emph{AdditionalPositionEstimateObservations} message is compressed into a byte array and then attached to the \emph{PositionEstimate} message.
+\begin{lstlisting}[backgroundcolor=\color{lightlightgray}, title={\emph{PositionEstimate} and \emph{AdditionalPositionEstimateObservations} protobuf definition}, label=mfl::posEst]
+message PositionEstimate {
+    required int64 timeStampUTC_ms = 1;
+    optional bool interpolatedPoint = 3;
+    required double longitude_deg = 4;
+    required double latitude_deg = 5;
+    required double horizontalAccuracy_m = 6;
+    optional double altitude_m = 7;
+    optional double heading_deg = 8;
+    optional double speed_mps = 9;
+    optional double altitudeAccuracy_m = 10;
+    optional double headingAccuracy_deg = 11;
+    optional double speedAccuracy_mps = 12;
+    optional Vector3D vehicleReferencedOrientationVector_rad = 15;
+		repeated ExtensionContainer extensionContainer = 250;
+}
+
+message AdditionalPositoinEstimateObservations {
+    optional double numberOfTrackedSatellites = 1;
+    optional bool laneTransitionIndicator = 6;
+    optional double filteredLatitude=8;
+    optional double filteredLongitude=9;
+    optional double filteredAltitude=10;
+}
+\end{lstlisting}
+\par
+As mentioned in section \ref{ml_hd} and \ref{ml_} lane markings are important for localization and planning and thus are suitable to be a target for the Map Learning approach. An extract of the SDII \textbf{LaneBoundaryRecognition} SDII message is shown below with the corresponding \emph{AdditionalLaneBoundaryRecognitionObservations} message. The \emph{LaneBoundaryRecognition} message contains information about the type of the lane marking and additional information like curvature. The \emph{PositionOffset} message is used to identify the position of the lane marking. The \emph{ExtensionContainer} of the \emph{LaneBoundaryRecognition} contains different information than the \emph{ExtensionContainer} of the \emph{PositionEstimate} does, but the process of attaching it to the SDII message remains the same.
+\begin{lstlisting}[backgroundcolor=\color{lightlightgray}, title={\emph{LaneBoundaryRecognition} and \emph{AdditionalLaneBoundaryRecognitionObservations} protobuf definition}]
+message LaneBoundaryRecognition {
+    required int64 timeStampUTC_ms = 1;
+    required PositionOffset positionOffset = 2;
+    optional LaneBoundaryTypeEnum laneBoundaryType = 3;
+    optional LaneBoundaryColorEnum laneBoundaryColor = 4;
+    optional double curvature_1pm = 5;
+    optional double verticalCurvature_1pm = 15;
+    optional double verticalCurvatureAccuracy_1pm = 16;
+		repeated ExtensionContainer extensionContainer = 250;
+}
+
+message AdditionalLaneBoundaryRecognitionObservations {
+    repeated float geoPositionOrientationCovariance = 1 [packed = true];
+    optional double laneMarkingColorClassificationConfidence=2;
+    optional int32 numberOfLanes = 4;
+}
+\end{lstlisting}
+\par
+Another in section \ref{ml_hd} and \ref{ml_} mentioned kind are the pole like objects. These can be used to help localize the exact position of the car even in noisy urban areas. The corresponding SDII message therefore includes information like an identification number to track the object while driving, the position relative to the vehicle (see \ref{mfl_base_messages} \emph{PositionOffset}) and of course the type, because the SDII message does not only report pole like objects, but also persons, other vehicles and signs for example.
+\section{Map Feedback Framework}
+The vehicles already collect many information about their surroundings and the information is available via \ac{DDS} to the connected autonomous driving components. The data although is not always ready to use after it is made available by the sensors or other components and needs some preprocessing in order to be useful for the Map Learning.
+\subsection{State of the Art - Map Feedback Framework}
+The existing Map Feedback Framework is located in the \emph{Maps} component and uses data made available by sensors or other autonomous driving components. The data is shared over the DDS middleware and thus is available near real-time. Some components process data from the sensors and share their results again on the DDS bus. The current Map Feedback Framework takes some of the available data and preprocesses it to be usable for HERE as Map Learning input.
+\begin{figure}[!hbt]
+\includegraphics[scale=0.7, center]{mfl_current.png}
+\caption{Current Map Feedback Framework Concept}
+\label{mfl_current}
+\end{figure}
+Figure \ref{mfl_current} shows the concept of the Map Feedback Framework as of right now. The DDS bus is omnipresent in all modules and builds the basis for the inter-component communication. The \emph{DDS Wrapper} is an adapter to extract the needed data from the DDS bus and make it available within the Map Feedback Framework. The modules within the Map Feedback Framework process the data from DDS and publish them to the internal bus in the Maps component. This internal communication bus is only accessible from within the Maps component and is used to share information between the different modules. For example could a preprocessing module for the lane marking observations extract data published by the mono-camera from the DDS bus and filter the data for useable information and publish it again on the inter-module communication bus of the Maps component. The trapezial boxes with numbers in figure \ref{mfl_current} represent the internally published data samples.
+\subsection{Closing the Loop}
+\label{mfl_closing_loop}
+HERE provides Daimler with high definition maps in order to drive autonomously. The concept of Map Learning requires the map provider to get feedback about the actual map and learn based on that feedback(see \ref{ml_}). Right now the feedback is just shared internally in the Maps component. In order to share this information with HERE the SDII format based on Google Protocol Buffers is used, described in section \ref{mfl_sdii_overview}.\\
+%TODO update with code generation and make smaller, code generation part ganz raus aus dieser section?
+The Map Feedback Framework is extended as figure \ref{mfl_extended} shows. The \emph{SDII Data Manager} provides feedback to HERE in form of SDII data.
+\begin{figure}[!hbt]
+\includegraphics[scale=0.7, center]{mfl_extendedwoLegend.png}
+\caption{Map Feedback Framework with feedback module}
+\label{mfl_extended}
+\end{figure}
+The data samples are extracted from the internal bus and need some preprocessing in order to be fitted into the SDII format. The SDII Data Manager converts the data into the SDII format and buffers the information until the, in this case, file is outputted. As mentioned in section \ref{mfl_sdii_overview} the SDII definitions are provided by HERE and thus is the .proto file. As seen in figure \ref{mfl_extended} not only the by protobuf needed files are generated by the protoc compiler, but the \emph{SDII Converter Code Generator} also generates the SDII Data Manager source code including a \emph{SDIIFeedback} headerfile. The process of the code generation is discussed in section \ref{mfl_generation}. \\
+Figure \ref{mfl_extended_detail} shows the internal structure of the SDII Data Manager. The trapezial boxes again show data samples within the Maps component. They are the same data samples which enter the SDII Data Manager in figure \ref{mfl_extended}. The preprocessing part for the SDII Data Manager consists of adapters which take the data from the internal bus and convert them into the \emph{SDIIFeedback} structure, which is defined in the SDIIFeedback.h. The SDIIFeedback.h is a generated headerfile which reflects the .proto file provided by HERE. It serves as exchange medium between the adapters and the actual SDII converter. The SDIIFeedback.h contains multiple \verb|structs| and \verb|enums|, which represent the messages and \verb|enums| in the .proto file.\\
+In every .proto file from HERE exists one \enquote{top level message}, which is a message that can be seen as root of all other messages, because this message contains all the other messages. The SDIIFeedback.h headerfile contains the \verb|SDIIFeedback| class in addition to the \verb|structs| and \verb|enums|. This class contains one attribute of this \enquote{top level message} type. The \verb|SDIIFeedback| class also provides \verb|boolean| attributes which are used by the SDII converter to determine which message to set, section \ref{mfl_generation} goes into more detail about this.\\
+Each adapter takes an object of the generic base class type \verb|Value| and converts it to its actual type, for example \verb|LaneMarkingObservations|. The adapters fill the part of the \verb|SDIIFeedback| class which is provided by their \verb|Value| object. The adapter maps the values from the \verb|Value| object to the corresponding \verb|SDIIFeedback| attributes and sets the corresponding \verb|boolean| value in the \verb|SDIIFeedback| class to show which message contains values. If not all values for the SDII format can be set default values are provided by the adapter which are replaced as soon as the needed attribute is provided by the preprocessing modules inside the Map Feedback Framework.(Adapter Design Pattern: \cite{gof:1994})
+\begin{figure}[!hbt]
+\includegraphics[scale=0.6, center]{mfl_sdii_converter_detail.png}
+\caption{SDII Data Manager detailed}
+\label{mfl_extended_detail}
+\end{figure}
+\\After an adapter converted its input to the SDIIFeedback.h format the \verb|SDIIFeedback| object is stored in a queue within the SDII Data Manager. This queue increases until the \verb|process()| method is called and the queue is emptied. The SDII Data Manager is managed by the Maps component and thus the interval of how often \verb|process()| is called is also set in the component. Each call to \verb|process()| causes the SDII converter to take each \verb|SDIIFeedback| object out of the queue and convert it into the real SDII format. The definition by HERE requires the \enquote{top level message} to hold \emph{repeated} messages and therefore the \verb|process()| method just adds these messages to the \enquote{top level message} or another message within the \enquote{top level message}.\\
+The message to be added to does not have to be the \enquote{top level message}. For example provides the current .proto file a message \emph{MessageList}, which can hold multiple \emph{Message} messages. Although \emph{MessageList} is the \enquote{top level message}, \emph{Message} is the message that new messages should be added to. If the \emph{LaneMarkingObservations} adapter fills a \verb|SDIIFeedback| object with lane marking information, these information should be added to the \emph{LaneBoundaryRecognition} message within the \emph{Message} message, not the \enquote{top level message} \emph{MessageList}. However, the \emph{Message} message is contained in the \emph{MessageList} message which means the \emph{SDII message} in figure \ref{mfl_extended_detail} is for example of type \emph{MessageList}, which contains one or more \emph{Message} messages which contain multiple other messages which are added by the \verb|process()| method every time it runs. A logic to add new \emph{Message} messages can be added which can be based on time and/or \emph{SDII message} size.\\
+As soon as the SDII Data Manager module is about to shutdown the \emph{SDII message} is serialized to a byte stream and right now stored inside of a .protobuf file which is sent to HERE.\\
+The serialization only happens when the module is shutdown as of right now and prefixes each serialized message with its byte size.\cite{pb_techniques} Thus multiple messages could be written into one stream and the prefixed size delimits them, because protobuf itself does not provide delimiters.
+Because the principle of building the \emph{SDII message} and the serialization is always similar, if not the same but with different names, a code generation approach was chosen to remove unnecessary future workload.
+\subsection{Code Generation}
+\label{mfl_generation}
+The decision to go a code generating approach is based on several considerations:
+\begin{itemize}
+\item \textbf{Recurrence of code} The code to create the SDII format and to serialize it is always similar, if not even identical except the names of attributes. The syntax to set an attribute value is always: \verb|<message>->set_<attribute>(<value>)|, to add a new message to a \emph{repeated} field is always: \verb|<message>->add_<repeated message>()|. These function calls repeat in the code very often and there are almost no exceptions besides some special protobuf constructs which are handled the same all the time as well.
+\item \textbf{Complexity of whole SDII definition} The definition by HERE becomes complex, because there are multiple \enquote{layers} and each message often contains at least one other message and this nested structure can be confusing at some point, because each nested message has to be handled right and errors are likely to occur because of the huge amount of fields and messages.
+\item \textbf{Estimated frequent minor changes} The Map Learning is as of right now in the research state which means that changes are almost guaranteed to happen. The parties included in this project are still learning how to use Map Learning effectively and some needs of change are result of ongoing research.
+\end{itemize}
+The generation of the code is entirely based on the .proto file from HERE and some assumptions regarding the structure of this .proto file.
+\subsection{Assumptions}
+\label{mfl_generation_assumptions}
+The code generation is supposed to work in a specific case which is to generate code to create SDII formatted output. The SDII definitions are assumed to be similar in their structure, but can have changes internally. The structure is assumed to be always multiple messages which are nested into each other, but with \textbf{one \enquote{top level message}} which is never used as a type by any other message. This message is seen as \emph{Root Message}. If there are more than one message which are never included in any other message the generating algorithm can not determine which one is meant to be the actual \enquote{top level message}.\\
+Another assumption is that there is a message which can be seen as the \enquote{real top level message}. As mentioned in section \ref{mfl_closing_loop} the \emph{MessageList} message is the \enquote{top level message} as far as it is the only message which is not used as a type in any other message. But it is just a container for multiple \emph{Message} messages which can be seen as \enquote{real top level message}, because they are the message which directly contain all other messages, except the \emph{MessageList} of course. The \enquote{real top level message} is assumed to be the first message in the hierarchy of messages which contains \textbf{more than one} other message.
+The .proto file is assumed to be structured to be readable which means each field definition is done in a new line and there is no enumeration in one line.\\
+Although Google allows nesting of messages as deep as wanted it is assumed to be a maximum of one level for the .proto file, so the nested message may not have a nested message inside.\\
+There are messages which represent topics the Map Feedback Framework is supposed to cover, like \emph{LaneBoundaryRecognition}. The corresponding messages are assumed to have at least one field of an scalar type and to be the first messages in the hierarchy to show this characteristic.
+\subsection{Map and Graph creation}
+\label{mfl_generation_graph}
+In order to generate the source code and the header file which is used as exchange medium, the .proto file has to be read multiple times, because the messages are not ordered in it. In the first iteration the .proto file is analyzed in terms of which messages are present and how they are connected. Therefore each line is read and analyzed independently and in context of its position within the .proto file.\\
+The \textbf{message} keyword is used to identify the beginning of new message definitions. If a new definition is found it is added to different \emph{maps}. To determine if a message is a nested message or not, the current state is tracked and set according to the position within the .proto file. The state can be \verb|OUT_OF_MESSAGE|, \verb|IN_MESSAGE|, \verb|IN_ENUM| or \verb|IN_STRUCT| where \emph{struct} is meant to be a nested message. The different maps are a type map, a hierarchy map for the source code and a hierarchy map for the header file. The different hierarchy maps should be merged together in future, because one map is enough to represent the needed information for both the source code and the header file, but as proof of concept it is easier to keep them separate for now. The type map is used to keep track of the existing types in the .proto file. It is initially filled with all protobuf types and their mapping to C++ types as mentioned in section \ref{pb_types} and as a new message is found it is added to that list, because later if a field is found the type is double checked to be a valid type within the .proto file and therefore the type map is searched. The hierarchy maps are used to build a graph of all messages within the .proto file to determine how the source code has to combine them to represent the actual .proto file definitions and to determine in which order the header file has to be created to satisfy C++ restrictions, because if a \verb|struct| uses another \verb|struct| as type, this other \verb|struct| has to be defined prior to the including \verb|struct|. So if a new message is found its name is added to the hierarchy map as key. The value of the hierarchy map is a vector of \emph{nodes}. The \emph{node} class represents a node in a graph. Its attributes are a vector of child nodes, an attribute name, a type and \verb|boolean| attributes to represent if it is a repeated field, part of a nested message or part of an \verb|enum|. Each field in the .proto file is represented by a node. Figure \ref{mfl_generation_graph} shows the principle behind the graph that is build within the code generator.
+\begin{figure}[!hbt]
+\includegraphics[scale=0.6, center]{generator_principle.png}
+\caption{Graph built inside the generator}
+\label{mfl_generation_graph}
+\end{figure}
+\\This graph is built among the value fields of the hierarchy map. The key of the hierarchy map is the message name, the value holds nodes which represent the fields within the message. As mentioned a node can have other nodes as children as well, because a message can be used as a type in another message and the fields in this as type used message are children of the node which includes the message. Figure \ref{mfl_generation_graph} shows this nesting of messages into each other. Each \emph{Message} box is represented as a key in the map and its children are the nodes stored in the value field. The hexagons labeled \emph{Attribute} represent nodes without children which are fields in the .proto file of a scalar type. With this and a similar directed graph for the header file it is possible to create the source files and the header file needed to create the SDII output.\\
+In order to populate the values in the hierarchy maps each field found in a message definition is added as node to the value of the corresponding message key. Thus after the first iteration the hierarchy maps contain each message name as a key, the map for the header file includes \verb|enums| in addition, and the value fields are populated with the fields each message, and \verb|enum| for the header map, contains. What is still missing is the connection between the messages, represented as the children vector of the \emph{node} class. So in comparison to figure \ref{mfl_generation_graph} the nodes, like \emph{Message} and \emph{Attribute}, are already present, but the connection between them is missing. They are connected indirectly through the hierarchy map, but the actual graph is built among the values of the map through the children vector of each \emph{node}. The reason why they are not yet connected is that the order of the messages in the .proto file is not guaranteed to be hierarchical, thus the connections are made in the second iteration after the .proto file was analyzed in the first iteration.\\
+In the second iteration the actual graph is built by connecting the individual \emph{nodes}. Therefore the fields inside of a message definition are examined. The node related to the field that is examined is edited and the values of the map entry with the type of the examined field as key are pushed back to the children vector of the node. For example if in the Position Estimate message (\ref{mfl::posEst}) the field \verb|vehicleReferenceOrientationVector_rad| is examined, the algorithm is looking for the node with the attribute name \verb|vehicleReferenceOrientationVector_rad| in the value field of the hierarchy map entry with the key \emph{PositionEstimate}. This node is edited and all nodes of the hierarchy entry with the key \emph{Vector3D}, which is the type of \verb|vehicleReferenceOrientationVector_rad|, are added to the children vector of the node. This way all the nodes get connected and after the second iteration the graph looks like in figure \ref{mfl_generation_graph} illustrated.\\
+The \enquote{top level message} is never connected, because it is never used as a type in the other messages. Therefore it is kept track which messages are used and the only message which is never used as a type is assumed to be the \enquote{top level message} (see \ref{mfl_generation_assumptions}). This \enquote{top level message} is added as a node on top of all other messages and now the graph truly represents the hierarchical structure of the .proto file.
+\subsection{Traversing the graph}
+\label{mfl_generation_traverse}
+The first information to gain from the graph is to find the messages which are published by the Map Feedback Framework. They are characterized by containing at least one field which is of a scalar type like \verb|int| or \verb|boolean|. This again is an assumption which is made to be able to generate the code for the SDII conversion(see \ref{mfl_generation_assumptions}). A node of a scalar type is characterized by having an empty children vector. Thus the graph is searched with \emph{breadth-first search} for nodes which have nodes without children. If one is found it is added to a vector which contains all messages of this kind to be used later. It is important to know about these messages, because each preprocessing module in the Map Feedback Framework generally only provides data for one of these messages, but the adapters always output \emph{SDIIFeedback} objects which could contain data about any message. To prevent errors in accessing attributes of the \emph{SDIIFeedback} object which are not populated by a certain adapter the \emph{SDIIFeedback} class provides \verb|boolean| attributes which indicate which message is set and therefore the converter knows which data to use.\par
+Next the source code for filling the messages has to be generated. Therefore the graph has to be traversed with \emph{depth-first search} to find the route from the \enquote{top level message} to the leafs in each possible way. This is necessary because the syntax of protobuf requires the filling of the messages in this hierarchical way, so starting from the \enquote{top level message} and ending at the scalar attributes.\\
+The \emph{SDIIFeedback.h} header file requires the exact opposite way of traversing the graph. The graph has to be traversed from the leafs towards the root, because in the header file all messages are represented as structs and nested structs have to be defined before used.\\
+Each traverse of the graph calls a related \emph{Writer} which takes care of writing the code to a source and/or header file to create the source code. After the traverses are done the source code is generated and ready to use.
+\subsubsection{Running the toolchain}
+\label{mfl_generation_running}
+To be able to run the toolchain the source code has to be put into the maps component of the autonomous driving software. Adapters have to be provided to convert the input from the preprocessing modules into the \emph{SDIIFeedback} format. After that the toolchain takes over the work and converts and outputs the SDII data. In order to provide new data in the SDII format or update already published data only the adapter has to be edited or created. The toolchain is already ready to process whichever message data it gets.

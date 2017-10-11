@@ -1,0 +1,17 @@
+%!TEX root = ../dokumentation.tex
+
+\thispagestyle{plain}
+
+\iflang{en}{%
+% Dieser deutsche Teil wird nur angezeigt, wenn die Sprache auf Englisch eingestellt ist.
+\renewcommand{\abstractname}{\langabstract} % Text für Überschrift
+
+\begin{abstract}
+
+Map Learning is a technique to keep high definition maps up-to-date with sensors of series vehicles. Therefore the data collected by the sensors is preprocessed in the vehicle and sent to the high definition map provider in order to perform the Map Learning and improve and update the high definition maps. These maps are used to support the autonomous driving in terms of localization and planning and thus make autonomous driving safer and more reliable. However, these maps underlie frequent changes and therefore have to be updated all the time.\\
+The Sensor Data Ingestion Interface is an interface used to sent sensor data in order to perform Map Learning on the data. The sensor data has to be converted into this format before it can be used by the map supplier. The research state of Map Learning causes this interface to change frequently. Google Protocol Buffers are the base of the Sensor Data Ingestion Interface and are used to serialize the data into a byte stream. Frequent changes of the format, recurrence of code and the complexity behind the Sensor Data Ingestion Interface led to a code generation approach.\\
+This report discusses the current state of the Map Learning approach combined with high definition maps and introduces Google Protocol Buffers alongside the Sensor Data Ingestion Interface. In terms of the Map Learning Framework the missing part of the feedback to the map provider is addressed and a solution is introduced. The new feature contains a code generating part and the actual converter to the Sensor Data Ingestion Interface. The goal of the code generation approach is to provide a fast and easy adaption to frequent changes of the Sensor Data Ingestion Interface. The report describes how the source code is generated and what problems were faced.\\
+The extension of the Sensor Data Ingestion Interface converter is easy, because of the adapter preprocessing.
+
+\end{abstract}
+}
