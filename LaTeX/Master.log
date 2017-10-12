@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.1.22)  11 OCT 2017 12:27
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.1.22)  12 OCT 2017 11:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -477,29 +477,29 @@ File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
 LaTeX Font Info:    Redeclaring font encoding T1 on input line 48.
 ))
 (./ads/einstellungen_liste.tex) (./einstellungen.tex) (./lang/strings.tex)
-(./lang/en.tex) (/usr/local/texlive/2016/texmf-dist/tex/generic/babel/babel.sty
+(./lang/de.tex) (/usr/local/texlive/2016/texmf-dist/tex/generic/babel/babel.sty
 Package: babel 2016/04/23 3.9r The Babel package
-(/usr/local/texlive/2016/texmf-dist/tex/generic/babel-german/ngerman.ldf
-Language: ngerman 2013/12/13 v2.7 German support for babel (new orthography)
-
-(/usr/local/texlive/2016/texmf-dist/tex/generic/babel-german/ngermanb.ldf
-Language: ngermanb 2013/12/13 v2.7 German support for babel (new orthography)
+(/usr/local/texlive/2016/texmf-dist/tex/generic/babel-english/english.ldf
+Language: english 2012/08/20 v3.3p English support from the babel system
 
 (/usr/local/texlive/2016/texmf-dist/tex/generic/babel/babel.def
 File: babel.def 2016/04/23 3.9r Babel common definitions
 \babel@savecnt=\count93
 \U@D=\dimen103
 )
-\l@naustrian = a dialect from \language\l@ngerman 
-\l@nswissgerman = a dialect from \language\l@ngerman 
-Package babel Info: Making " an active character on input line 88.
-))
-(/usr/local/texlive/2016/texmf-dist/tex/generic/babel-english/english.ldf
-Language: english 2012/08/20 v3.3p English support from the babel system
 \l@canadian = a dialect from \language\l@american 
 \l@australian = a dialect from \language\l@british 
 \l@newzealand = a dialect from \language\l@british 
-))
+)
+(/usr/local/texlive/2016/texmf-dist/tex/generic/babel-german/ngerman.ldf
+Language: ngerman 2013/12/13 v2.7 German support for babel (new orthography)
+
+(/usr/local/texlive/2016/texmf-dist/tex/generic/babel-german/ngermanb.ldf
+Language: ngermanb 2013/12/13 v2.7 German support for babel (new orthography)
+\l@naustrian = a dialect from \language\l@ngerman 
+\l@nswissgerman = a dialect from \language\l@ngerman 
+Package babel Info: Making " an active character on input line 88.
+)))
 (/usr/local/texlive/2016/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2010/09/12 v5.6 Page Geometry
 
@@ -1804,13 +1804,13 @@ Package: translator 2010/06/12 ver 1.10
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/beamer/translator/translator-lang
 uage-mappings.tex))
-(/usr/local/texlive/2016/texmf-dist/tex/latex/glossaries-english/glossaries-eng
-lish.ldf
-File: glossaries-english.ldf 2014/11/23 v1.0
-)
 (/usr/local/texlive/2016/texmf-dist/tex/latex/glossaries-german/glossaries-germ
 an.ldf
 File: glossaries-german.ldf 2014/11/23 v1.0
+)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/glossaries-english/glossaries-eng
+lish.ldf
+File: glossaries-english.ldf 2014/11/23 v1.0
 )
 \gls@level=\count383
 \@gls@tmpb=\toks53
@@ -1876,12 +1876,6 @@ Package glossaries Info: Writing glossary file Master.glo on input line 16.
 (./ads/glossary.tex)
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
-Package biblatex Info: Trying to load language 'english'...
-Package biblatex Info: ... file 'english.lbx' found.
-
-(/usr/local/texlive/2016/texmf-dist/tex/latex/biblatex/lbx/english.lbx
-File: english.lbx 2016/05/14 v3.4 biblatex localization (PK/JW/AB)
-)
 Package biblatex Info: Trying to load language 'ngerman'...
 Package biblatex Info: ... file 'ngerman.lbx' found.
 
@@ -1893,11 +1887,13 @@ Package biblatex Info: ... file 'german.lbx' found.
 (/usr/local/texlive/2016/texmf-dist/tex/latex/biblatex/lbx/german.lbx
 File: german.lbx 2016/05/14 v3.4 biblatex localization (PK/JW/AB)
 ))
-(./Master.aux
+Package biblatex Info: Trying to load language 'english'...
+Package biblatex Info: ... file 'english.lbx' found.
 
-LaTeX Warning: Label `mfl_generation_graph' multiply defined.
-
+(/usr/local/texlive/2016/texmf-dist/tex/latex/biblatex/lbx/english.lbx
+File: english.lbx 2016/05/14 v3.4 biblatex localization (PK/JW/AB)
 )
+(./Master.aux)
 \openout1 = `Master.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
@@ -2046,18 +2042,7 @@ Package biblatex Info: Data encoding 'utf8' specified.
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'Master.bbl' found.
 
-(./Master.bbl
-
-Package biblatex Warning: BibTeX reported the following issues
-(biblatex)                with 'ieee_maplearning':
-(biblatex)                - Invalid format of field 'month'.
-
-
-Package biblatex Warning: BibTeX reported the following issues
-(biblatex)                with '7795600':
-(biblatex)                - Invalid format of field 'month'.
-
-)
+(./Master.bbl)
 Package biblatex Info: Reference section=0 on input line 19.
 Package biblatex Info: Reference segment=0 on input line 19.
 Package nag Info: Command \caption@xlabel not defined, skipping amendment on in
@@ -2082,6 +2067,14 @@ Overfull \hbox (15.35449pt too wide) in paragraph at lines 6--7
 []|[]| 
  []
 
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 31.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 31.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 31.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 31.
 [1
 
 \openout6 = `Master.ist'.
@@ -2101,55 +2094,53 @@ Package microtype Info: Loading generic settings for font family
 (microtype)             `lmss' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-LaTeX Font Info:    Try loading font information for TS1+lmr on input line 32.
+LaTeX Font Info:    Try loading font information for TS1+lmr on input line 18.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)) [1]
-(./ads/erklaerung.tex) [2] (./ads/abstract.tex [3
-
-
-])
+))
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 33.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 33.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 33.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 33.
+ [1]
+(./ads/erklaerung.tex)
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 37.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 37.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 37.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 37.
+ [2] (./ads/abstract.tex)
 Package tocbasic Info: character protrusion at toc deactivated on input line 60
 .
- (./Master.toc
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 11.
-
-(/usr/local/texlive/2016/texmf-dist/tex/latex/lm/ot1lmr.fd
-File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 11.
-
-(/usr/local/texlive/2016/texmf-dist/tex/latex/lm/omllmm.fd
-File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 11.
-
-
-(/usr/local/texlive/2016/texmf-dist/tex/latex/lm/omslmsy.fd
-File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 11.
-
-
-(/usr/local/texlive/2016/texmf-dist/tex/latex/lm/omxlmex.fd
-File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 11.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 11.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 11.
-)
+ (./Master.toc)
 \tf@toc=\write8
 \openout8 = `Master.toc'.
 
- [4
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 61.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 61.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 61.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 61.
+ [3
 
 ]
 (./ads/acronyms.tex
 chapter without number
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 3.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 3.
 
 Class scrreprt Warning: \float@addtolists detected!
 (scrreprt)              Implementation of \float@addtolist became
@@ -2165,350 +2156,95 @@ Class scrreprt Warning: \float@addtolists detected!
 (scrreprt)              a package that still implements the
 (scrreprt)              deprecated \float@addtolist interface .
 
-) [5
+)
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 71.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 71.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 71.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 71.
+ [4
 
 
 
 
 ]
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 72.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 72.
 Package tocbasic Info: character protrusion at lof deactivated on input line 72
 .
  (./Master.lof)
 \tf@lof=\write9
 \openout9 = `Master.lof'.
 
- [6
-
-
-
-] (./content/01kapitel.tex
-chapter 1.
-(./content/introduction.tex
-Package acronym Info: Label `acro:HD' newly defined as it shall be overridden
-although it is yet undefined on input line 4.
-pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
-been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.8 \section
-            {Scope} [1
-
-
-
-]) (./content/stateOfTheArt.tex
-<images/maplayer.png, id=186, 705.63625pt x 388.45125pt>
-File: images/maplayer.png Graphic file (type png)
-
-<use images/maplayer.png>
-Package pdftex.def Info: images/maplayer.png used on input line 6.
-(pdftex.def)             Requested size: 211.6925pt x 116.53627pt.
-)) (./content/02kapitel.tex
-Overfull \vbox (7.89444pt too high) has occurred while \output is active []
-
-
-[2]
-Overfull \vbox (7.89444pt too high) has occurred while \output is active []
-
-
-[3 <./images/maplayer.png>]
-chapter 2.
-(./content/protobuf.tex
-Package acronym Info: Label `acro:protobuf' newly defined as it shall be overri
-dden
-although it is yet undefined on input line 3.
-LaTeX Font Info:    Try loading font information for T1+lmtt on input line 8.
-
-(/usr/local/texlive/2016/texmf-dist/tex/latex/lm/t1lmtt.fd
-File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-Package microtype Info: Loading generic settings for font family
-(microtype)             `lmtt' (encoding: T1).
-(microtype)             For optimal results, create family-specific settings.
-(microtype)             See the microtype manual for details.
-
-<images/typeMapping.png, id=213, 861.2175pt x 730.73pt>
-File: images/typeMapping.png Graphic file (type png)
-
-<use images/typeMapping.png>
-Package pdftex.def Info: images/typeMapping.png used on input line 24.
-(pdftex.def)             Requested size: 465.05052pt x 394.58832pt.
- [4
-
-]
-Overfull \vbox (7.89444pt too high) has occurred while \output is active []
-
-
-[5 <./images/typeMapping.png>]
-Overfull \vbox (7.89444pt too high) has occurred while \output is active []
-
-
-[6]
-Overfull \vbox (7.89444pt too high) has occurred while \output is active []
-
-
-[7] <images/encoding.png, id=294, 859.21pt x 265.99374pt>
-File: images/encoding.png Graphic file (type png)
-
-<use images/encoding.png>
-Package pdftex.def Info: images/encoding.png used on input line 88.
-(pdftex.def)             Requested size: 463.96649pt x 143.63448pt.
-
-Overfull \vbox (7.89444pt too high) has occurred while \output is active []
-
-
-[8 <./images/encoding.png>])) (./content/03kapitel.tex
-Overfull \vbox (7.89444pt too high) has occurred while \output is active []
-
-
-[9]
-chapter 3.
-(./content/maplearning.tex
-Package acronym Info: Label `acro:LIDAR' newly defined as it shall be overridde
-n
-although it is yet undefined on input line 3.
-Package acronym Info: Label `acro:RADAR' newly defined as it shall be overridde
-n
-although it is yet undefined on input line 3.
-
-<images/3DM_MBRDNA.png, id=310, 898.85812pt x 639.89063pt>
-File: images/3DM_MBRDNA.png Graphic file (type png)
-
-<use images/3DM_MBRDNA.png>
-Package pdftex.def Info: images/3DM_MBRDNA.png used on input line 7.
-(pdftex.def)             Requested size: 223.07214pt x 158.80058pt.
-
-<images/google_maps_MBRDNA.png, id=311, 1973.3725pt x 1415.2875pt>
-File: images/google_maps_MBRDNA.png Graphic file (type png)
-
-<use images/google_maps_MBRDNA.png>
-Package pdftex.def Info: images/google_maps_MBRDNA.png used on input line 13.
-(pdftex.def)             Requested size: 223.07214pt x 159.97961pt.
-
-<images/garmin_lane_exit.png, id=318, 391.4625pt x 226.8475pt>
-File: images/garmin_lane_exit.png Graphic file (type png)
-
-<use images/garmin_lane_exit.png>
-Package pdftex.def Info: images/garmin_lane_exit.png used on input line 21.
-(pdftex.def)             Requested size: 274.02187pt x 158.79216pt.
-Package acronym Info: Label `acro:GNSS' newly defined as it shall be overridden
-
-although it is yet undefined on input line 25.
-
-<images/3DM_Intersection.png, id=324, 903.375pt x 903.375pt>
-File: images/3DM_Intersection.png Graphic file (type png)
-
-<use images/3DM_Intersection.png>
-Package pdftex.def Info: images/3DM_Intersection.png used on input line 28.
-(pdftex.def)             Requested size: 361.3436pt x 361.3436pt.
- [10
-
- <./images/3DM_MBRDNA.png> <./images/google_maps_MBRDNA.png>]
-Overfull \vbox (7.89444pt too high) has occurred while \output is active []
-
-
-[11 <./images/garmin_lane_exit.png>]
-Overfull \vbox (7.89444pt too high) has occurred while \output is active []
-
-
-[12 <./images/3DM_Intersection.png>]
-<images/loc_features.png, id=348, 1576.89125pt x 497.86pt>
-File: images/loc_features.png Graphic file (type png)
-
-<use images/loc_features.png>
-Package pdftex.def Info: images/loc_features.png used on input line 42.
-(pdftex.def)             Requested size: 473.07103pt x 149.35915pt.
-
-Overfull \vbox (7.89444pt too high) has occurred while \output is active []
-
-
-[13])) (./content/04kapitel.tex
-Overfull \vbox (7.89444pt too high) has occurred while \output is active []
-
-
-[14 <./images/loc_features.png>]
-chapter 4.
-(./content/mapfeedbacklearning.tex
-<images/here_data_flow.png, id=361, 1800.7275pt x 445.665pt>
-File: images/here_data_flow.png Graphic file (type png)
-
-<use images/here_data_flow.png>
-Package pdftex.def Info: images/here_data_flow.png used on input line 3.
-(pdftex.def)             Requested size: 540.22243pt x 133.70053pt.
-Package acronym Info: Label `acro:OEM' newly defined as it shall be overridden
-although it is yet undefined on input line 7.
-Package acronym Info: Label `acro:SDII' newly defined as it shall be overridden
-
-although it is yet undefined on input line 7.
-Package acronym Info: Label `acro:ESP' newly defined as it shall be overridden
-although it is yet undefined on input line 13.
-Package acronym Info: Label `acro:SDIP' newly defined as it shall be overridden
-
-although it is yet undefined on input line 15.
- [15
-
- <./images/here_data_flow.png>]
-Overfull \vbox (7.89444pt too high) has occurred while \output is active []
-
-
-[16] <images/mfl_over.png, id=389, 1336.995pt x 1116.17pt>
-File: images/mfl_over.png Graphic file (type png)
-
-<use images/mfl_over.png>
-Package pdftex.def Info: images/mfl_over.png used on input line 50.
-(pdftex.def)             Requested size: 334.24792pt x 279.04181pt.
-
-Overfull \vbox (7.89444pt too high) has occurred while \output is active []
-
-
-[17]
-Overfull \vbox (7.89444pt too high) has occurred while \output is active []
-
-
-[18 <./images/mfl_over.png>]
-Overfull \vbox (7.89444pt too high) has occurred while \output is active []
-
-
-[19]
-Package acronym Info: Label `acro:DDS' newly defined as it shall be overridden
-although it is yet undefined on input line 103.
- <images/mfl_current.png, id=470, 290.0436pt x 296.307pt>
-File: images/mfl_current.png Graphic file (type png)
-
-<use images/mfl_current.png>
-Package pdftex.def Info: images/mfl_current.png used on input line 107.
-(pdftex.def)             Requested size: 203.02911pt x 207.41348pt.
-
-Overfull \vbox (7.89444pt too high) has occurred while \output is active []
-
-
-[20] <images/mfl_extendedwoLegend.png, id=481, 616.4631pt x 496.0131pt>
-File: images/mfl_extendedwoLegend.png Graphic file (type png)
-
-<use images/mfl_extendedwoLegend.png>
-Package pdftex.def Info: images/mfl_extendedwoLegend.png used on input line 118
-.
-(pdftex.def)             Requested size: 431.52122pt x 347.2068pt.
-
-<images/mfl_sdii_converter_detail.png, id=489, 394.8351pt x 419.166pt>
-File: images/mfl_sdii_converter_detail.png Graphic file (type png)
-
-<use images/mfl_sdii_converter_detail.png>
-Package pdftex.def Info: images/mfl_sdii_converter_detail.png used on input lin
-e 127.
-(pdftex.def)             Requested size: 236.90288pt x 251.50154pt.
-
-Overfull \vbox (7.89444pt too high) has occurred while \output is active []
-
-
-[21 <./images/mfl_current.png>]
-Overfull \vbox (7.89444pt too high) has occurred while \output is active []
-
-
-[22 <./images/mfl_extendedwoLegend.png>]
-Overfull \vbox (7.89444pt too high) has occurred while \output is active []
-
-
-[23 <./images/mfl_sdii_converter_detail.png>]
-Overfull \vbox (7.89444pt too high) has occurred while \output is active []
-
-
-[24] <images/generator_principle.png, id=516, 431.4519pt x 301.3659pt>
-File: images/generator_principle.png Graphic file (type png)
-
-<use images/generator_principle.png>
-Package pdftex.def Info: images/generator_principle.png used on input line 157.
-
-(pdftex.def)             Requested size: 258.87314pt x 180.82092pt.
-
-Overfull \hbox (74.55229pt too wide) in paragraph at lines 154--165
-\T1/lmr/m/n/12 (-20) the al-go-rithm is look-ing for the node with the at-tribu
-te name []\T1/lmtt/m/n/12 vehicleReferenceOrientationVector_rad
- []
-
-
-Overfull \vbox (7.89444pt too high) has occurred while \output is active []
-
-
-[25]
-Overfull \vbox (7.89444pt too high) has occurred while \output is active []
-
-
-[26 <./images/generator_principle.png>]
-Overfull \vbox (7.89444pt too high) has occurred while \output is active []
-
-
-[27])) (./content/05kapitel.tex
-Overfull \vbox (7.89444pt too high) has occurred while \output is active []
-
-
-[28]
-chapter 5.
-(./content/resume.tex [29
-
-]))
-Underfull \hbox (badness 10000) in paragraph at lines 7--101
-
- []
-
-
-Overfull \vbox (7.89444pt too high) has occurred while \output is active []
-
-
-[30]
-chapter without number
-Package microtype Info: Character `029' is missing
-(microtype)             in font `T1/lmr/m/sc/12'.
-(microtype)             Ignoring protrusion settings for this character.
-[7
-
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 73.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 73.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 73.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 73.
+ [5
 
 
 
 ]
+
+LaTeX Warning: Empty bibliography on input line 110.
+
 No file Master.gls.
 No complaints by nag.
 
 Overfull \vbox (7.89444pt too high) has occurred while \output is active []
 
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 124.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 124.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 124.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 124.
 
-[8]
+[6
+
+
+
+
+
+]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 124.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 124.
  (./Master.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 124.
 Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 124.
-
-
-LaTeX Warning: There were multiply-defined labels.
-
 Package logreq Info: Writing requests to 'Master.run.xml'.
 \openout1 = `Master.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 38076 strings out of 493014
- 679382 string characters out of 6133351
- 1307534 words of memory out of 5000000
- 40296 multiletter control sequences out of 15000+600000
- 80843 words of font info for 132 fonts, out of 8000000 for 9000
+ 36585 strings out of 493014
+ 653905 string characters out of 6133351
+ 1279421 words of memory out of 5000000
+ 39234 multiletter control sequences out of 15000+600000
+ 43548 words of font info for 49 fonts, out of 8000000 for 9000
  1145 hyphenation exceptions out of 8191
- 72i,10n,80p,8504b,3296s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/
-texlive/2016/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}</usr/local/texlive/2016/
+ 72i,10n,80p,8504b,1667s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/local
+/texlive/2016/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}</usr/local/texlive/2016/
 texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2016/texmf-dist
-/fonts/type1/public/lm/lmcsc10.pfb></usr/local/texlive/2016/texmf-dist/fonts/ty
-pe1/public/lm/lmr10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/
-lm/lmr12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/lm/lmr6.pfb
-></usr/local/texlive/2016/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/loc
-al/texlive/2016/texmf-dist/fonts/type1/public/lm/lmri12.pfb></usr/local/texlive
-/2016/texmf-dist/fonts/type1/public/lm/lmro12.pfb></usr/local/texlive/2016/texm
-f-dist/fonts/type1/public/lm/lmssbx10.pfb></usr/local/texlive/2016/texmf-dist/f
-onts/type1/public/lm/lmtt10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1
-/public/lm/lmtt12.pfb>
-Output written on Master.pdf (39 pages, 2512863 bytes).
+/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type
+1/public/lm/lmri12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/l
+m/lmssbx10.pfb>
+Output written on Master.pdf (7 pages, 305722 bytes).
 PDF statistics:
- 775 PDF objects out of 1000 (max. 8388607)
- 679 compressed objects within 7 object streams
- 234 named destinations out of 1000 (max. 500000)
- 27997 words of extra memory for PDF output out of 29859 (max. 10000000)
+ 85 PDF objects out of 1000 (max. 8388607)
+ 67 compressed objects within 1 object stream
+ 14 named destinations out of 1000 (max. 500000)
+ 14375 words of extra memory for PDF output out of 14400 (max. 10000000)
 
