@@ -1,69 +1,7 @@
 \boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
 \defcounter {refsection}{0}\relax 
-\select@language {english}
+\select@language {ngerman}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\nonumberline Acronyms}{V}{chapter*.4}
+\contentsline {chapter}{\nonumberline Abk\IeC {\"u}rzungsverzeichnis}{IV}{chapter*.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\nonumberline List of Figures}{VI}{chapter*.5}
-\defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}
-\defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {1.1}Motivation}{1}{section.1.1}
-\defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {1.2}Scope}{2}{section.1.2}
-\defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {1.3}State of the Art}{2}{section.1.3}
-\defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {2}Google Protocol Buffers}{4}{chapter.2}
-\defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {2.1}Overview}{4}{section.2.1}
-\defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.1.1}.proto files}{4}{subsection.2.1.1}
-\defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.1.2}Field types, tags and rules}{5}{subsection.2.1.2}
-\defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.1.3}Multiple Messages}{6}{subsection.2.1.3}
-\defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.1.4}Encoding}{8}{subsection.2.1.4}
-\defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.1.5}Compatibility}{9}{subsection.2.1.5}
-\defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {3}Map Learning}{10}{chapter.3}
-\defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.1}High Definition Maps}{10}{section.3.1}
-\defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.2}Map Learning Basics}{13}{section.3.2}
-\defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.2.1}Definitions}{13}{subsection.3.2.1}
-\defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.2.2}Value of Map Learning}{14}{subsection.3.2.2}
-\defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {4}Map Feedback}{15}{chapter.4}
-\defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.1}Sensor Data Ingestion Interface}{16}{section.4.1}
-\defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.1.1}Data Elements}{16}{subsection.4.1.1}
-\defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.1.2}Base Messages}{16}{subsection.4.1.2}
-\defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.1.3}Sensor Data Ingestion Interface Messages}{17}{subsection.4.1.3}
-\defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.2}Map Feedback Framework}{20}{section.4.2}
-\defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2.1}State of the Art - Map Feedback Framework}{20}{subsection.4.2.1}
-\defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2.2}Closing the Loop}{21}{subsection.4.2.2}
-\defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2.3}Code Generation}{24}{subsection.4.2.3}
-\defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2.4}Assumptions}{24}{subsection.4.2.4}
-\defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2.5}Map and Graph creation}{25}{subsection.4.2.5}
-\defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2.6}Traversing the graph}{27}{subsection.4.2.6}
-\defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.6.1}Running the toolchain}{28}{subsubsection.4.2.6.1}
-\defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}Conclusion}{29}{chapter.5}
-\defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\nonumberline Bibliography}{VII}{chapter*.16}
+\contentsline {chapter}{\nonumberline Abbildungsverzeichnis}{V}{chapter*.5}
