@@ -1,2 +1,9 @@
 .DS_Store
 LaTeX/Master.pdf
+LaTeX/Master.aux
+LaTeX/Master.bbl
+LaTeX/Master.blg
+LaTeX/Master.glo
+LaTeX/Master.run.xml
+LaTeX/Master.synctex.gz
+LaTeX/Master.toc
